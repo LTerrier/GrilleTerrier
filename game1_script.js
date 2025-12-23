@@ -47,24 +47,24 @@ let difficultyLevel = 1;
 
 const classChallenges = {
   mage: [
-    { difficulty: 1, question: "Récite le nom d’un sort célèbre.", success: "+1 action", failure: "-1 action" },
-    { difficulty: 2, question: "Compte de 10 à 1 sans erreur.", success: "+2 actions", failure: "-2 actions" },
-    { difficulty: 3, question: "Cite 3 créatures magiques.", success: "+2 actions", failure: "-2 actions" }
+    { difficulty: 1, question: "Récite le nom d’un sort célèbre.", success: "+1 action", failure: "Aucune action ajoutée" },
+    { difficulty: 2, question: "Compte de 10 à 1 sans erreur.", success: "+2 actions", failure: "Aucune action ajoutée" },
+    { difficulty: 3, question: "Cite 3 créatures magiques.", success: "+2 actions", failure: "Aucune action ajoutée" }
   ],
   guerrier: [
-    { difficulty: 1, question: "Fais 5 squats.", success: "+1 action", failure: "-1 action" },
-    { difficulty: 2, question: "Fais 10 pompes.", success: "+2 actions", failure: "-2 actions" },
-    { difficulty: 3, question: "Tiens la planche 20s.", success: "+2 actions", failure: "-2 actions" }
+    { difficulty: 1, question: "Fais 5 squats.", success: "+1 action", failure: "Aucune action ajoutée" },
+    { difficulty: 2, question: "Fais 10 pompes.", success: "+2 actions", failure: "Aucune action ajoutée" },
+    { difficulty: 3, question: "Tiens la planche 20s.", success: "+2 actions", failure: "Aucune action ajoutée" }
   ],
   voleur: [
-    { difficulty: 1, question: "Tiens-toi sur une jambe 10s.", success: "+1 action", failure: "-1 action" },
-    { difficulty: 2, question: "Avance en silence.", success: "+2 actions", failure: "-2 actions" },
-    { difficulty: 3, question: "Accroupi 20s sans bouger.", success: "+2 actions", failure: "-2 actions" }
+    { difficulty: 1, question: "Tiens-toi sur une jambe 10s.", success: "+1 action", failure: "Aucune action ajoutée" },
+    { difficulty: 2, question: "Avance en silence.", success: "+2 actions", failure: "Aucune action ajoutée" },
+    { difficulty: 3, question: "Accroupi 20s sans bouger.", success: "+2 actions", failure: "Aucune action ajoutée" }
   ],
   druide: [
-    { difficulty: 1, question: "Respire profondément 3 fois.", success: "+1 action", failure: "-1 action" },
-    { difficulty: 2, question: "Reste immobile 15s.", success: "+2 actions", failure: "-2 actions" },
-    { difficulty: 3, question: "Cite 5 plantes.", success: "+2 actions", failure: "-2 actions" }
+    { difficulty: 1, question: "Respire profondément 3 fois.", success: "+1 action", failure: "Aucune action ajoutée" },
+    { difficulty: 2, question: "Reste immobile 15s.", success: "+2 actions", failure: "Aucune action ajoutée" },
+    { difficulty: 3, question: "Cite 5 plantes.", success: "+2 actions", failure: "Aucune action ajoutée" }
   ]
 };
 
@@ -223,3 +223,4 @@ document.getElementById("endTurnBtn").addEventListener("click", () => {
 
 // === INIT ===
 startTurn();
+
