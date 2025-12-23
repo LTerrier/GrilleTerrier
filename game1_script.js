@@ -1,117 +1,193 @@
-// === GAME ACCESS CHECK ===
+// GAME ACCESS CHECK
 let players = JSON.parse(localStorage.getItem("players")) || [];
 
-if (players.length === 0) {
+if (!Array.isArray(players) || players.length === 0) {
   window.location.href = "character.html";
   throw new Error("Game blocked");
 }
 
-
-localStorage.removeItem("gameLocked");
-
-// === GRID ===
+// GRID
 const grid = document.getElementById("grid");
 
 const playableTiles = [
-  // Ligne 1 (10)
   ...Array.from({ length: 10 }, (_, i) => ({ x: i, y: 0 })),
-  // Ligne 2 (7)
   ...Array.from({ length: 7 }, (_, i) => ({ x: i + 1, y: 1 })),
-  // Ligne 3 (5)
   ...Array.from({ length: 5 }, (_, i) => ({ x: i + 2, y: 2 })),
-  // Ligne 4 (5) → sortie
   ...Array.from({ length: 5 }, (_, i) => ({ x: i + 2, y: 3, exit: true }))
 ];
+
 const TILE_SIZE = 60;
 
 playableTiles.forEach(tile => {
   const cell = document.createElement("div");
-  cell.classList.add("cell");
-
+  cell.className = "cell";
   cell.style.left = tile.x * TILE_SIZE + "px";
   cell.style.top = tile.y * TILE_SIZE + "px";
-
-  if (tile.exit) {
-    cell.classList.add("exit");
-  }
-
+  if (tile.exit) cell.classList.add("exit");
   cell.dataset.x = tile.x;
   cell.dataset.y = tile.y;
-
   grid.appendChild(cell);
 });
 
-// === CHALLENGES =====
+// CHALLENGES
 let challengeDone = false;
 let difficultyLevel = 1;
+let currentChallenge = null;
 
 const classChallenges = {
   mage: [
-    { difficulty: 1, question: "Récite le nom d’un sort célèbre.", success: "+1 action", failure: "Aucune action ajoutée" },
-    { difficulty: 2, question: "Compte de 10 à 1 sans erreur.", success: "+2 actions", failure: "Aucune action ajoutée" },
-    { difficulty: 3, question: "Cite 3 créatures magiques.", success: "+2 actions", failure: "Aucune action ajoutée" }
+    {
+      difficulty: 1,
+      question: "Je suis invisible mais je peux te brûler. Qui suis-je ?",
+      answers: ["feu", "le feu"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Plus je suis partagé, plus je grandis. Que suis-je ?",
+      answers: ["le savoir", "la connaissance"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    },
+    {
+      difficulty: 3,
+      question: "J’ai des villes mais pas de maisons, des rivières sans eau et des routes sans voyageurs. Que suis-je ?",
+      answers: ["une carte", "la carte"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
   ],
+
   guerrier: [
-    { difficulty: 1, question: "Fais 5 squats.", success: "+1 action", failure: "Aucune action ajoutée" },
-    { difficulty: 2, question: "Fais 10 pompes.", success: "+2 actions", failure: "Aucune action ajoutée" },
-    { difficulty: 3, question: "Tiens la planche 20s.", success: "+2 actions", failure: "Aucune action ajoutée" }
+    {
+      difficulty: 1,
+      question: "Qu’est-ce qui tombe toujours mais ne se casse jamais ?",
+      answers: ["la nuit"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Je suis toujours devant toi mais tu ne peux jamais m’atteindre. Qui suis-je ?",
+      answers: ["le futur", "avenir"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    },
+    {
+      difficulty: 3,
+      question: "Un soldat traverse un pont fragile la nuit avec une torche. Comment fait-il ?",
+      answers: ["un par un", "ils traversent un par un"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
   ],
+
   voleur: [
-    { difficulty: 1, question: "Tiens-toi sur une jambe 10s.", success: "+1 action", failure: "Aucune action ajoutée" },
-    { difficulty: 2, question: "Avance en silence.", success: "+2 actions", failure: "Aucune action ajoutée" },
-    { difficulty: 3, question: "Accroupi 20s sans bouger.", success: "+2 actions", failure: "Aucune action ajoutée" }
+    {
+      difficulty: 1,
+      question: "Plus tu en prends, plus tu en laisses derrière toi. Qu’est-ce ?",
+      answers: ["les pas", "empreintes"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Je parle sans bouche et j’entends sans oreilles. Qui suis-je ?",
+      answers: ["echo", "l'echo"],
+      success: "+2 actions",
+      failure: "aucune action"
+    },
+    {
+      difficulty: 3,
+      question: "Je peux voler sans ailes et pleurer sans yeux. Qui suis-je ?",
+      answers: ["nuage", "un nuage"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
   ],
+
   druide: [
-    { difficulty: 1, question: "Respire profondément 3 fois.", success: "+1 action", failure: "Aucune action ajoutée" },
-    { difficulty: 2, question: "Reste immobile 15s.", success: "+2 actions", failure: "Aucune action ajoutée" },
-    { difficulty: 3, question: "Cite 5 plantes.", success: "+2 actions", failure: "Aucune action ajoutée" }
+    {
+      difficulty: 1,
+      question: "Je grandis sans racines et disparais sans trace. Qui suis-je ?",
+      answers: ["fumee", "la fumee"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Qu’est-ce qui appartient à la forêt mais que l’on emporte toujours ?",
+      answers: ["ombre", "l'ombre"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    },
+    {
+      difficulty: 3,
+      question: "Je suis pris avant d’être donné et disparais si on me garde trop longtemps. Que suis-je ?",
+      answers: ["souffle", "le souffle"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
   ]
 };
 
+// UTILS
+function normalize(str) {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
+// START CHALLENGE
 function startChallenge() {
   challengeDone = false;
 
   const player = players[currentPlayerIndex];
-  const list = classChallenges[player.classe];
+  const pool = classChallenges[player.classe]
+    .filter(c => c.difficulty === difficultyLevel);
 
-  const pool = list.filter(c => c.difficulty === difficultyLevel);
-  const challenge = pool[Math.floor(Math.random() * pool.length)];
+  currentChallenge = pool[Math.floor(Math.random() * pool.length)];
 
-  document.getElementById("challengeZone").textContent = challenge.question;
+  document.getElementById("challengeZone").textContent = currentChallenge.question;
   document.getElementById("difficultyZone").textContent =
     `Difficulté : ${difficultyLevel}`;
 
-  const successBtn = document.getElementById("successBtn");
-  const failureBtn = document.getElementById("failureBtn");
-
-  successBtn.disabled = false;
-  failureBtn.disabled = false;
-
-  successBtn.onclick = () => {
-    if (challengeDone) return;
-    challengeDone = true;
-    actionsRemaining += challenge.success.includes("+2") ? 2 : 1;
-    finishChallenge(challenge.success);
-  };
-
-  failureBtn.onclick = () => {
-    if (challengeDone) return;
-    challengeDone = true;
-    actionsRemaining -= challenge.failure.includes("-2") ? 2 : 1;
-    if (actionsRemaining < 0) actionsRemaining = 0;
-    finishChallenge(challenge.failure);
-  };
+  document.getElementById("answerInput").value = "";
 }
+
+// CHECK ANSWER
+document.getElementById("answerBtn").addEventListener("click", () => {
+  if (challengeDone) return;
+  challengeDone = true;
+
+  const input = normalize(document.getElementById("answerInput").value);
+  const valid = currentChallenge.answers.some(a => normalize(a) === input);
+
+  if (valid) {
+    actionsRemaining += currentChallenge.success.includes("+2") ? 2 : 1;
+    finishChallenge(currentChallenge.success);
+  } else {
+    actionsRemaining -= currentChallenge.failure.includes("-2") ? 2 : 0;
+    if (actionsRemaining < 0) actionsRemaining = 0;
+    finishChallenge(currentChallenge.failure);
+  }
+});
 
 function finishChallenge(text) {
   document.getElementById("challengeZone").textContent = text;
-  document.getElementById("successBtn").disabled = true;
-  document.getElementById("failureBtn").disabled = true;
+
+  // ➜ Afficher la réponse correcte
+  document.getElementById("solutionZone").textContent =
+    "Le bonne réponse est : " + currentChallenge.answers[0];
+
   renderPlayers();
 }
 
 
-// === PLAYERS ====
+// === PLAYERS INIT ===
 players = players.map(p => ({
   ...p,
   pseudo: p.pseudo.toUpperCase(),
@@ -119,9 +195,10 @@ players = players.map(p => ({
 }));
 
 let currentPlayerIndex = 0;
+let initialActions = 0;
+let actionsRemaining = 0;
 
-
-// === ACTIONS ====
+// ACTIONS
 function getRandomActions() {
   return Math.floor(Math.random() * 6) + 1;
 }
@@ -129,11 +206,7 @@ function clamp(v) {
   return Math.max(0, Math.min(v, 6));
 }
 
-let initialActions = 0;
-let actionsRemaining = 0;
-
-
-// === STYLES =====
+// STYLES
 const classStyles = {
   mage: { color: "purple", symbol: "✦" },
   guerrier: { color: "red", symbol: "⚔" },
@@ -141,29 +214,7 @@ const classStyles = {
   druide: { color: "blue", symbol: "✎" }
 };
 
-// === Fonctions afficher pseudo ===
-function renderPlayerRow() {
-  const row = document.getElementById("playerRow");
-
-  // Efface le contenu précédent
-  row.innerHTML = "";
-
-  // Ajoute les pseudos
-  row.innerHTML = players.map((p, index) => {
-    const active = index === currentPlayerIndex;
-    return `
-      <span style="
-        margin-right:12px;
-        font-weight:${active ? "bold" : "normal"};
-        text-decoration:${active ? "underline" : "none"};
-      ">
-        ${p.pseudo}
-      </span>
-    `;
-  }).join("");
-}
-
-// === RENDER =====
+// RENDER
 function renderPlayers() {
   document.querySelectorAll(".cell").forEach(c => (c.textContent = ""));
 
@@ -177,52 +228,50 @@ function renderPlayers() {
     }
   });
 
-  const info = document.getElementById("turnInfo");
   const p = players[currentPlayerIndex];
-  info.textContent =
-    `Tour de ${p.pseudo} - ${p.classe}— ${actionsRemaining}/${initialActions} actions`;
+  document.getElementById("turnInfo").textContent =
+    `Tour de ${p.pseudo} (${p.classe}) — ${actionsRemaining}/${initialActions} actions`;
 
-  // 👇 APPEL OBLIGATOIRE
   renderPlayerRow();
 }
 
-// === TURN ====
+function renderPlayerRow() {
+  document.getElementById("playerRow").innerHTML = players
+    .map((p, i) =>
+      `<span style="margin-right:10px;font-weight:${i === currentPlayerIndex ? "bold" : "normal"}">${p.pseudo}</span>`
+    ).join("");
+}
+
+// TURN
 function startTurn() {
   initialActions = clamp(getRandomActions());
   actionsRemaining = initialActions;
-
   difficultyLevel = Math.floor(Math.random() * 3) + 1;
-
   renderPlayers();
   startChallenge();
 }
 
-// === MOVE ====
-document.addEventListener("keydown", e => {
-  if (actionsRemaining <= 0) return;
-
-  const p = players[currentPlayerIndex];
-  let { x, y } = p.position;
-
-  if (e.key === "ArrowUp" && y > 0) y--;
-  else if (e.key === "ArrowDown" && y < 29) y++;
-  else if (e.key === "ArrowLeft" && x > 0) x--;
-  else if (e.key === "ArrowRight" && x < 29) x++;
-  else return;
-
-  p.position = { x, y };
-  actionsRemaining--;
-  renderPlayers();
-});
-
-// === END TURN ===
 document.getElementById("endTurnBtn").addEventListener("click", () => {
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   startTurn();
 });
 
-// === INIT ===
+// MOVE
+document.addEventListener("keydown", e => {
+  if (actionsRemaining <= 0) return;
+  const p = players[currentPlayerIndex];
+  const moves = {
+    ArrowUp: [0, -1],
+    ArrowDown: [0, 1],
+    ArrowLeft: [-1, 0],
+    ArrowRight: [1, 0]
+  };
+  if (!moves[e.key]) return;
+  p.position.x += moves[e.key][0];
+  p.position.y += moves[e.key][1];
+  actionsRemaining--;
+  renderPlayers();
+});
+
+// INIT
 startTurn();
-
-
-
