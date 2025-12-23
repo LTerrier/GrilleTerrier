@@ -63,7 +63,12 @@ body {
 
 /* Zone de défi */
 #infoZone {
-display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 80%; margin: 20px auto;
+display: grid;
+text-aglin: center;
+grid-template-columns: 1fr 1fr; 
+gap: 20px; 
+width: 80%; 
+margin: 20px auto;
 }
 
 #challengeZone {
@@ -151,5 +156,6 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
+
 
 
