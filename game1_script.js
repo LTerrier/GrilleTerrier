@@ -22,7 +22,7 @@ const playableTiles = [
   // Ligne 4 (5) → sortie
   ...Array.from({ length: 5 }, (_, i) => ({ x: i + 2, y: 3, exit: true }))
 ];
-const TILE_SIZE = 60; cell.style.left = tile.x * TILE_SIZE + "px"; cell.style.top = tile.y * TILE_SIZE + "px";
+const TILE_SIZE = 60;
 
 playableTiles.forEach(tile => {
   const cell = document.createElement("div");
@@ -223,5 +223,6 @@ document.getElementById("endTurnBtn").addEventListener("click", () => {
 
 // === INIT ===
 startTurn();
+
 
 
