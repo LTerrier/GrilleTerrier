@@ -100,6 +100,15 @@ body {
   border-radius: 8px;
 }
 
+#buttonZone {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #e6f7d9;
+  border: 2px dashed #5a7d3a;
+  border-radius: 8px;
+}
+
 /* Boutons */
 button {
   margin: 5px;
@@ -149,5 +158,6 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
+
 
 
