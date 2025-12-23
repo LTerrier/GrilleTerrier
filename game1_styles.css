@@ -1,0 +1,149 @@
+/* game_styles.css */
+
+/* Style général : fond type plaine */
+body {
+  margin: 0;
+  background-image: url("res/village.jpg"); /* ton image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+/* Grille */
+.cell {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.exit {
+  background: rgba(0, 255, 0, 0.6);
+  border-color: green;
+}
+
+.grid {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  margin: auto;
+}
+
+.grid div {
+  width: 50px;
+  height: 50px;
+  background-color: #d9f0c2;
+  border: 1px solid #5a7d3a;
+}
+
+/* Infos du tour */
+.turn-info {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #fffbe6;
+  border: 2px solid #c2a878;
+  border-radius: 8px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Résultat */
+#result {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px;
+  color: #3a2f1d;
+}
+
+/* Zone de défi */
+#challengeZone {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #e6f7d9;
+  border: 2px dashed #5a7d3a;
+  border-radius: 8px;
+}
+
+#difficultyZone {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #e6f7d9;
+  border: 2px dashed #5a7d3a;
+  border-radius: 8px;
+}
+
+#playerRowZone {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #e6f7d9;
+  border: 2px dashed #5a7d3a;
+  border-radius: 8px;
+}
+
+#solutionZone {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #e6f7d9;
+  border: 2px dashed #5a7d3a;
+  border-radius: 8px;
+}
+
+/* Boutons */
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+#successBtn {
+  background-color: #6fbf73;
+  color: #fff;
+}
+
+#failureBtn {
+  background-color: #bf6f6f;
+  color: #fff;
+}
+
+#endTurnBtn {
+  background-color: #c2a878;
+  color: #fff;
+}
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Ligne des joueurs */
+.player-row {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  gap: 15px;
+}
+
+.player-row div {
+  padding: 10px;
+  background-color: #fffbe6;
+  border: 2px solid #c2a878;
+  border-radius: 6px;
+  min-width: 80px;
+  text-align: center;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+}
