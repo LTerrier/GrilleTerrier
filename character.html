@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Création du personnage</title>
+  <link rel="stylesheet" href="character_styles.css">
+</head>
+<body>
+
+<h1>Créer ton personnage</h1>
+
+<!-- Form create player -->
+<form id="step1Form">
+  <input type="text" name="pseudo" placeholder="Nom du personnage" required>
+
+  <select name="classe" required>
+    <option value="">-- Choisis ta classe --</option>
+    <option value="guerrier">Guerrier</option>
+    <option value="voleur">Voleur</option>
+    <option value="mage">Mage</option>
+    <option value="druide">Druide</option>
+    <!-- <option value="classename">classe</option> -->
+  </select>
+
+<!--Button-->
+  <button type="submit">Continuer</button>
+</form>
+
+<!--List players -->
+<h2>Voici la liste des pseudos : </h2>
+<ul id="createdPlayers"></ul>
+
+<!--Button clear-->
+<button id="clearAll">🗑 Supprimer tous les personnages</button>
+
+<!--Link to games-->
+<a href="game1.html">Continuer vers la première partie</a>
+<!--<a href="game.html">Continuer vers la partie</a>-->
+
+<script src="character_script.js"></script>
+</body>
+</html>
