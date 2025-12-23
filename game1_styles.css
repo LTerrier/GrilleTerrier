@@ -13,8 +13,8 @@ body {
 /* Grille */
 .cell {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.6);
   border: 2px solid #333;
@@ -30,9 +30,16 @@ body {
 
 .grid {
   position: relative;
-  width: 600px;
-  height: 240px;
+  width: 800px;
+  height: 600px;
   margin: auto;
+}
+
+.grid div {
+  width: 50px;
+  height: 50px;
+  background-color: #d9f0c2;
+  border: 1px solid #5a7d3a;
 }
 
 /* Infos du tour */
@@ -74,6 +81,15 @@ body {
 }
 
 #playerRowZone {
+  text-align: center;
+  margin: 15px;
+  padding: 10px;
+  background-color: #e6f7d9;
+  border: 2px dashed #5a7d3a;
+  border-radius: 8px;
+}
+
+#solutionZone {
   text-align: center;
   margin: 15px;
   padding: 10px;
@@ -131,6 +147,3 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
-
-
-
