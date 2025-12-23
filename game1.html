@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grille D&D Etape 1 : Plaine</title>
+  <link rel="stylesheet" href="game1_styles.css">
+</head>
+<body>
+  <!-- Grille -->
+  <div id="grid" class="grid"></div>
+
+  <!-- Infos du tour -->
+<div id="turnInfo" class="turn-info"></div>
+<p id="result"></p>
+<div id="challengeZone"></div>
+<div id="difficultyZone"></div>
+<button id="successBtn">Succès</button>
+<button id="failureBtn">Échec</button>
+
+
+<!-- Bouton fin de tour -->
+<button id="endTurnBtn">Fin de tour</button>
+
+<!--Liste des pseudos actifs-->
+<div id="playerRowZone" class="player-box">
+  <h2>Voici la liste des pseudos :</h2>
+  <div id="playerRow"></div>
+</div>
+
+
+  <script src="game1_script.js"></script>
+</body>
+</html>

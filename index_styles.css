@@ -1,0 +1,58 @@
+/* Reset de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Georgia", serif;
+}
+
+/* Fond général */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c1b10, #4a2f1a);
+  color: #f5e6c8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Titre principal */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 6px #000;
+}
+
+/* Texte */
+p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+/* Liste */
+ul {
+  list-style: none;
+}
+
+/* Liens */
+li {
+  margin: 10px 0;
+}
+
+a {
+  text-decoration: none;
+  color: #f5e6c8;
+  background-color: #7a4a28;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Effet au survol */
+a:hover {
+  background-color: #a16236;
+  transform: scale(1.05);
+}
