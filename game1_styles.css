@@ -13,8 +13,8 @@ body {
 /* Grille */
 .cell {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 60px;
+  height: 60px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.6);
   border: 2px solid #333;
@@ -30,16 +30,9 @@ body {
 
 .grid {
   position: relative;
-  width: 800px;
-  height: 600px;
+  width: 600px;
+  height: 300px;
   margin: auto;
-}
-
-.grid div {
-  width: 50px;
-  height: 50px;
-  background-color: #d9f0c2;
-  border: 1px solid #5a7d3a;
 }
 
 /* Infos du tour */
@@ -138,4 +131,5 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
+
 
