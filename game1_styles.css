@@ -2,7 +2,9 @@
 
 /* Style général : fond type plaine */
 body {
+  display: flex;
   margin: 0;
+  justify-content: center;
   background-image: url("res/village.jpg"); /* ton image */
   background-size: cover;
   background-position: center;
@@ -98,26 +100,6 @@ body {
   border-radius: 8px;
 }
 
-#successBtn {
-  display: flex; 
-  justify-content: center;
-  margin-top: 20px; }
-
-#failureBtn {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px; }
-
-#answerInput {
-  display: flex; 
-  justify-content: center; 
-  margin-top: 20px; }
-
-#answerBtn {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px; }
-
 /* Boutons */
 button {
   margin: 5px;
@@ -167,4 +149,5 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
+
 
