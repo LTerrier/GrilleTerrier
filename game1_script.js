@@ -247,16 +247,15 @@ function startTurn() {
   initialActions = clamp(getRandomActions());
   actionsRemaining = initialActions;
   difficultyLevel = Math.floor(Math.random() * 3) + 1;
-  window.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("#controls button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      movePlayer(btn.dataset.dir);
-    });
-  });
-});
   renderPlayers();
   startChallenge();
 }
+
+document.querySelectorAll("#controls button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    movePlayer(btn.dataset.dir);
+  });
+});
 
 document.getElementById("endTurnBtn").addEventListener("click", () => {
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
@@ -299,3 +298,4 @@ function movePlayer(direction) {
 
 // INIT
 startTurn();
+
