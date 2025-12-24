@@ -156,7 +156,9 @@ function startChallenge() {
     `Difficulté : ${difficultyLevel}`;
 
   document.getElementById("answerInput").value = "";
+  document.getElementById("solutionZone").textContent = "";
 }
+
 
 // CHECK ANSWER
 document.getElementById("answerBtn").addEventListener("click", () => {
@@ -247,13 +249,6 @@ function startTurn() {
   initialActions = clamp(getRandomActions());
   actionsRemaining = initialActions;
   difficultyLevel = Math.floor(Math.random() * 3) + 1;
-  window.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("#controls button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      movePlayer(btn.dataset.dir);
-    });
-  });
-});
   renderPlayers();
   startChallenge();
 }
@@ -296,6 +291,12 @@ function movePlayer(direction) {
   actionsRemaining--;
   renderPlayers();
 }
+
+document.querySelectorAll("#controls button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    movePlayer(btn.dataset.dir);
+  });
+});
 
 // INIT
 startTurn();
