@@ -290,20 +290,20 @@ function movePlayer(direction) {
 
   // Vérifier si la case existe
   const tileExists = playableTiles.some(t => t.x === newX && t.y === newY);
-
-  if (!tileExists) return; // mouvement impossible
+  if (!tileExists) return;
 
   // Appliquer le mouvement
   p.position.x = newX;
   p.position.y = newY;
 
-  // ➜ Vérifier si c'est la dernière case de la ligne
+  // === DESCENTE AUTOMATIQUE ===
+  // Vérifier si c'est la dernière case de la ligne
   const isLastTileOfRow = !playableTiles.some(
     t => t.y === p.position.y && t.x === p.position.x + 1
   );
 
   if (isLastTileOfRow) {
-    // ➜ Vérifier si une case existe juste en dessous
+    // Vérifier s'il existe une case juste en dessous
     const belowTile = playableTiles.find(
       t => t.x === p.position.x && t.y === p.position.y + 1
     );
@@ -325,5 +325,6 @@ document.querySelectorAll("#controls button").forEach(btn => {
 
 // INIT
 startTurn();
+
 
 
