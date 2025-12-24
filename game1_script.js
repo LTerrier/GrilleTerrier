@@ -29,6 +29,109 @@ playableTiles.forEach(tile => {
   grid.appendChild(cell);
 });
 
+// CHALLENGES
+let challengeDone = false;
+let difficultyLevel = 1;
+let currentChallenge = null;
+
+const classChallenges = {
+  mage: [
+    {
+      difficulty: 1,
+      question: "Je suis invisible mais je peux te brûler. Qui suis-je ?",
+      answers: ["feu", "le feu"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Plus je suis partagé, plus je grandis. Que suis-je ?",
+      answers: ["le savoir", "la connaissance"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    },
+    {
+      difficulty: 3,
+      question: "J’ai des villes mais pas de maisons, des rivières sans eau et des routes sans voyageurs. Que suis-je ?",
+      answers: ["une carte", "la carte"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
+  ],
+
+  guerrier: [
+    {
+      difficulty: 1,
+      question: "Qu’est-ce qui tombe toujours mais ne se casse jamais ?",
+      answers: ["la nuit"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Je suis toujours devant toi mais tu ne peux jamais m’atteindre. Qui suis-je ?",
+      answers: ["le futur", "avenir"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    },
+    {
+      difficulty: 3,
+      question: "Un soldat traverse un pont fragile la nuit avec une torche. Comment fait-il ?",
+      answers: ["un par un", "ils traversent un par un"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
+  ],
+
+  voleur: [
+    {
+      difficulty: 1,
+      question: "Plus tu en prends, plus tu en laisses derrière toi. Qu’est-ce ?",
+      answers: ["les pas", "empreintes"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Je parle sans bouche et j’entends sans oreilles. Qui suis-je ?",
+      answers: ["echo", "l'echo"],
+      success: "+2 actions",
+      failure: "aucune action"
+    },
+    {
+      difficulty: 3,
+      question: "Je peux voler sans ailes et pleurer sans yeux. Qui suis-je ?",
+      answers: ["nuage", "un nuage"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
+  ],
+
+  druide: [
+    {
+      difficulty: 1,
+      question: "Je grandis sans racines et disparais sans trace. Qui suis-je ?",
+      answers: ["fumee", "la fumee"],
+      success: "+1 action",
+      failure: "-1 action"
+    },
+    {
+      difficulty: 2,
+      question: "Qu’est-ce qui appartient à la forêt mais que l’on emporte toujours ?",
+      answers: ["ombre", "l'ombre"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    },
+    {
+      difficulty: 3,
+      question: "Je suis pris avant d’être donné et disparais si on me garde trop longtemps. Que suis-je ?",
+      answers: ["souffle", "le souffle"],
+      success: "+2 actions",
+      failure: "-2 actions"
+    }
+  ]
+};
+
 // UTILS
 function normalize(str) {
   return str
@@ -38,51 +141,24 @@ function normalize(str) {
     .trim();
 }
 
-function isPlayable(x, y) {
-  return playableTiles.some(t => t.x === x && t.y === y);
-}
-
-// CHALLENGES
-let challengeDone = false;
-let difficultyLevel = 1;
-let currentChallenge = null;
-
-const classChallenges = {
-  mage: [
-    { difficulty: 1, question: "Je suis invisible mais je brûle. Qui suis-je ?", answers: ["feu"], success: 1, failure: 1 },
-    { difficulty: 2, question: "Plus je suis partagé, plus je grandis.", answers: ["le savoir", "la connaissance"], success: 2, failure: 2 },
-    { difficulty: 3, question: "Villes sans maisons, rivières sans eau ?", answers: ["une carte"], success: 2, failure: 2 }
-  ],
-  guerrier: [
-    { difficulty: 1, question: "Qu’est-ce qui tombe toujours ?", answers: ["la nuit"], success: 1, failure: 1 },
-    { difficulty: 2, question: "Toujours devant toi ?", answers: ["le futur"], success: 2, failure: 2 },
-    { difficulty: 3, question: "Pont fragile la nuit ?", answers: ["un par un"], success: 2, failure: 2 }
-  ],
-  voleur: [
-    { difficulty: 1, question: "Plus tu prends, plus tu laisses ?", answers: ["les pas"], success: 1, failure: 1 },
-    { difficulty: 2, question: "Je parle sans bouche ?", answers: ["echo"], success: 2, failure: 0 },
-    { difficulty: 3, question: "Je vole sans ailes ?", answers: ["nuage"], success: 2, failure: 2 }
-  ],
-  druide: [
-    { difficulty: 1, question: "Je disparais sans trace ?", answers: ["fumee"], success: 1, failure: 1 },
-    { difficulty: 2, question: "Appartient à la forêt ?", answers: ["ombre"], success: 2, failure: 2 },
-    { difficulty: 3, question: "Pris avant d’être donné ?", answers: ["souffle"], success: 2, failure: 2 }
-  ]
-};
-
+// START CHALLENGE
 function startChallenge() {
   challengeDone = false;
 
   const player = players[currentPlayerIndex];
-  const pool = classChallenges[player.classe].filter(c => c.difficulty === difficultyLevel);
+  const pool = classChallenges[player.classe]
+    .filter(c => c.difficulty === difficultyLevel);
+
   currentChallenge = pool[Math.floor(Math.random() * pool.length)];
 
   document.getElementById("challengeZone").textContent = currentChallenge.question;
-  document.getElementById("difficultyZone").textContent = `Difficulté : ${difficultyLevel}`;
+  document.getElementById("difficultyZone").textContent =
+    `Difficulté : ${difficultyLevel}`;
+
   document.getElementById("answerInput").value = "";
 }
 
-// ANSWER CHECK
+// CHECK ANSWER
 document.getElementById("answerBtn").addEventListener("click", () => {
   if (challengeDone) return;
   challengeDone = true;
@@ -91,22 +167,27 @@ document.getElementById("answerBtn").addEventListener("click", () => {
   const valid = currentChallenge.answers.some(a => normalize(a) === input);
 
   if (valid) {
-    actionsRemaining += currentChallenge.success;
-    finishChallenge("Bonne réponse !");
+    actionsRemaining += currentChallenge.success.includes("+2") ? 2 : 1;
+    finishChallenge(currentChallenge.success);
   } else {
-    actionsRemaining = Math.max(0, actionsRemaining - currentChallenge.failure);
-    finishChallenge("Mauvaise réponse");
+    actionsRemaining -= currentChallenge.failure.includes("-2") ? 2 : 0;
+    if (actionsRemaining < 0) actionsRemaining = 0;
+    finishChallenge(currentChallenge.failure);
   }
 });
 
 function finishChallenge(text) {
   document.getElementById("challengeZone").textContent = text;
+
+  // ➜ Afficher la réponse correcte
   document.getElementById("solutionZone").textContent =
-    "Bonne réponse : " + currentChallenge.answers[0];
+    "Le bonne réponse est : " + currentChallenge.answers[0];
+
   renderPlayers();
 }
 
-// PLAYERS INIT
+
+// === PLAYERS INIT ===
 players = players.map(p => ({
   ...p,
   pseudo: p.pseudo.toUpperCase(),
@@ -117,16 +198,21 @@ let currentPlayerIndex = 0;
 let initialActions = 0;
 let actionsRemaining = 0;
 
-// ===============================
+// ACTIONS
+function getRandomActions() {
+  return Math.floor(Math.random() * 6) + 1;
+}
+function clamp(v) {
+  return Math.max(0, Math.min(v, 6));
+}
+
 // STYLES
-// ===============================
 const classStyles = {
   mage: { color: "purple", symbol: "✦" },
   guerrier: { color: "red", symbol: "⚔" },
   voleur: { color: "green", symbol: "☠" },
   druide: { color: "blue", symbol: "✎" }
 };
-
 
 // RENDER
 function renderPlayers() {
@@ -146,16 +232,28 @@ function renderPlayers() {
   document.getElementById("turnInfo").textContent =
     `Tour de ${p.pseudo} (${p.classe}) — ${actionsRemaining}/${initialActions} actions`;
 
+  renderPlayerRow();
+}
+
+function renderPlayerRow() {
   document.getElementById("playerRow").innerHTML = players
-    .map((pl, i) => `<span style="margin-right:10px;font-weight:${i === currentPlayerIndex ? "bold" : "normal"}">${pl.pseudo}</span>`)
-    .join("");
+    .map((p, i) =>
+      `<span style="margin-right:10px;font-weight:${i === currentPlayerIndex ? "bold" : "normal"}">${p.pseudo}</span>`
+    ).join("");
 }
 
 // TURN
 function startTurn() {
-  initialActions = Math.floor(Math.random() * 6) + 1;
+  initialActions = clamp(getRandomActions());
   actionsRemaining = initialActions;
   difficultyLevel = Math.floor(Math.random() * 3) + 1;
+  window.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#controls button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      movePlayer(btn.dataset.dir);
+    });
+  });
+});
   renderPlayers();
   startChallenge();
 }
@@ -166,8 +264,22 @@ document.getElementById("endTurnBtn").addEventListener("click", () => {
 });
 
 // MOVE
+document.addEventListener("keydown", e => {
+  const keyMap = {
+    ArrowUp: "up",
+    ArrowDown: "down",
+    ArrowLeft: "left",
+    ArrowRight: "right"
+  };
+
+  if (!keyMap[e.key]) return;
+  movePlayer(keyMap[e.key]);
+});
+
 function movePlayer(direction) {
   if (actionsRemaining <= 0) return;
+
+  const p = players[currentPlayerIndex];
 
   const moves = {
     up: [0, -1],
@@ -176,47 +288,14 @@ function movePlayer(direction) {
     right: [1, 0]
   };
 
-  const p = players[currentPlayerIndex];
-  const nx = p.position.x + moves[direction][0];
-  const ny = p.position.y + moves[direction][1];
+  if (!moves[direction]) return;
 
-  if (!isPlayable(nx, ny)) return;
+  p.position.x += moves[direction][0];
+  p.position.y += moves[direction][1];
 
-  p.position = { x: nx, y: ny };
   actionsRemaining--;
   renderPlayers();
 }
 
-// KEYBOARD
-document.addEventListener("keydown", e => {
-  const map = {
-    ArrowUp: "up",
-    ArrowDown: "down",
-    ArrowLeft: "left",
-    ArrowRight: "right"
-  };
-  if (map[e.key]) movePlayer(map[e.key]);
-});
-
-// CONTROLS BTN
-document.querySelectorAll("#controls button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    movePlayer(btn.dataset.dir);
-  });
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll("#controls button");
-
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      console.log("CLICK", btn.dataset.dir); // DEBUG
-      movePlayer(btn.dataset.dir);
-    });
-  });
-});
-
-
 // INIT
 startTurn();
-
