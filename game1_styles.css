@@ -1,4 +1,20 @@
 /* game_styles.css */
+.title {
+  text-align: center;
+  color: #ffffff;
+  background-color: #5a3e2b; /* marron */
+  border: 3px solid #3a2416; /* marron foncé */
+  padding: 15px 25px;
+  margin: 20px auto;
+  width: fit-content;
+
+  font-family: "Georgia", serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
 
 /* Style général : fond type plaine */
 body {
@@ -11,36 +27,38 @@ body {
 }
 
 /* Grille */
+.grid {
+  position: relative;
+  width: 600px;  /* 10 × 60 */
+  height: 240px; /* 4 × 60 */
+  margin: 0 auto; /* centre horizontalement */
+}
+
+.tile {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(0, 255, 0, 0.2);
+  border: 1px solid #5a7d3a;
+}
+
 .cell {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 2px solid #333;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  font-size: 32px;   /* taille des icônes */
+  font-weight: bold; /* surligne, mettre en valeur */
+
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid #333;
+  border-radius: 8px;
+  z-index: 10;
 }
 
-.cell.exit {
-  background: rgba(0, 255, 0, 0.6);
-  border-color: green;
-}
-
-.grid {
-  position: relative;
-  width: 800px;
-  height: 600px;
-  margin: auto;
-}
-
-.grid div {
-  width: 50px;
-  height: 50px;
-  background-color: #d9f0c2;
-  border: 1px solid #5a7d3a;
-}
 
 /* Infos du tour */
 .turn-info {
@@ -57,6 +75,7 @@ body {
   margin-top: 15px;
   text-align: center;
 }
+
 .controls button {
   font-size: 24px;
   margin: 5px;
@@ -120,25 +139,15 @@ button {
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
-#successBtn {
-  background-color: #6fbf73;
-  color: #fff;
-}
-
-#failureBtn {
-  background-color: #bf6f6f;
-  color: #fff;
-}
-
 #endTurnBtn {
   background-color: #c2a878;
   color: #fff;
+  display: block;      /* ← devient un bloc */
+  margin: 20px auto;   /* ← centré horizontalement */
+  padding: 10px 20px;
+  font-size: 1.2rem;
 }
 
-button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
 
 /* Ligne des joueurs */
 .player-row {
@@ -157,4 +166,3 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
-
