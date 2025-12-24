@@ -285,12 +285,34 @@ function movePlayer(direction) {
 
   if (!moves[direction]) return;
 
-  p.position.x += moves[direction][0];
-  p.position.y += moves[direction][1];
+  let newX = p.position.x + moves[direction][0];
+  let newY = p.position.y + moves[direction][1];
+
+  // Vérifier si la case existe dans playableTiles
+  const tileExists = playableTiles.some(t => t.x === newX && t.y === newY);
+
+  if (!tileExists) {
+    // ➜ Si on va à droite et qu'on sort de la ligne, on descend automatiquement
+    if (direction === "right") {
+      const belowTile = playableTiles.find(t => t.x === p.position.x && t.y === p.position.y + 1);
+      if (belowTile) {
+        newX = p.position.x;
+        newY = p.position.y + 1;
+      } else {
+        return; // impossible de descendre
+      }
+    } else {
+      return; // mouvement impossible
+    }
+  }
+
+  p.position.x = newX;
+  p.position.y = newY;
 
   actionsRemaining--;
   renderPlayers();
 }
+
 
 document.querySelectorAll("#controls button").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -300,3 +322,4 @@ document.querySelectorAll("#controls button").forEach(btn => {
 
 // INIT
 startTurn();
+
