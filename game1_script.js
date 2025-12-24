@@ -205,5 +205,18 @@ document.querySelectorAll("#controls button").forEach(btn => {
   });
 });
 
+window.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll("#controls button");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      console.log("CLICK", btn.dataset.dir); // DEBUG
+      movePlayer(btn.dataset.dir);
+    });
+  });
+});
+
+
 // INIT
 startTurn();
+
