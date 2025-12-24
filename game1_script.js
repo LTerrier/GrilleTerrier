@@ -11,8 +11,8 @@ const grid = document.getElementById("grid");
 
 const playableTiles = [
   ...Array.from({ length: 10 }, (_, i) => ({ x: i, y: 0 })),
-  ...Array.from({ length: 7 }, (_, i) => ({ x: i + 1, y: 1 })),
-  ...Array.from({ length: 5 }, (_, i) => ({ x: i + 2, y: 2 })),
+  ...Array.from({ length: 8 }, (_, i) => ({ x: i + 1, y: 1 })),
+  ...Array.from({ length: 7 }, (_, i) => ({ x: i + 2, y: 2 })),
   ...Array.from({ length: 5 }, (_, i) => ({ x: i + 2, y: 3, exit: true }))
 ];
 
@@ -28,6 +28,10 @@ playableTiles.forEach(tile => {
   cell.dataset.y = tile.y;
   grid.appendChild(cell);
 });
+
+const lastTile = playableTiles[playableTiles.length - 1];
+let gameOver = false;
+const endTile = playableTiles[playableTiles.length - 1];
 
 // CHALLENGES
 let challengeDone = false;
@@ -272,6 +276,7 @@ document.addEventListener("keydown", e => {
 });
 
 function movePlayer(direction) {
+  if (gameOver) return;
   if (actionsRemaining <= 0) return;
 
   const p = players[currentPlayerIndex];
@@ -291,40 +296,40 @@ function movePlayer(direction) {
   let newX = p.position.x + dx;
   let newY = p.position.y + dy;
 
-  // 1. Vérifier si la case visée existe
+  // Vérifier si la case existe
   const targetTile = playableTiles.find(t => t.x === newX && t.y === newY);
+
   if (!targetTile) {
-    return; // mouvement impossible ⇒ on ne bouge pas
+    // ➜ Si on essaie d'aller à droite mais qu'il n'y a plus de case
+    if (direction === "right") {
+      const nextRowY = p.position.y + 1;
+      const nextRowTiles = playableTiles.filter(t => t.y === nextRowY);
+
+      if (nextRowTiles.length > 0) {
+        // première case de la ligne suivante
+        const firstTile = nextRowTiles.reduce((min, t) =>
+          t.x < min.x ? t : min
+        , nextRowTiles[0]);
+
+        p.position.x = firstTile.x;
+        p.position.y = nextRowY;
+
+        actionsRemaining--;
+        renderPlayers();
+        checkVictory();
+      }
+    }
+
+    return;
   }
 
-  // 2. Appliquer le mouvement
+  // Déplacement normal
   p.position.x = newX;
   p.position.y = newY;
 
-  // 3. Vérifier si on est sur la dernière case de cette ligne
-  const rowTiles = playableTiles.filter(t => t.y === p.position.y);
-  const maxX = Math.max(...rowTiles.map(t => t.x));
-
-  const isLastTileOfRow = p.position.x === maxX;
-
-  if (isLastTileOfRow) {
-    // 4. Chercher la ligne du dessous
-    const nextRowY = p.position.y + 1;
-    const nextRowTiles = playableTiles.filter(t => t.y === nextRowY);
-
-    if (nextRowTiles.length > 0) {
-      // On place le joueur sur la première case de la ligne suivante
-      const firstTileNextRow = nextRowTiles.reduce((min, t) =>
-        t.x < min.x ? t : min
-      , nextRowTiles[0]);
-
-      p.position.x = firstTileNextRow.x;
-      p.position.y = nextRowY;
-    }
-  }
-
   actionsRemaining--;
   renderPlayers();
+  checkVictory();
 }
 
 document.querySelectorAll("#controls button").forEach(btn => {
@@ -332,6 +337,15 @@ document.querySelectorAll("#controls button").forEach(btn => {
     movePlayer(btn.dataset.dir);
   });
 });
+
+function checkVictory() {
+  const p = players[currentPlayerIndex];
+
+  if (p.position.x === endTile.x && p.position.y === endTile.y) {
+    alert(`${p.pseudo} a gagné !`);
+    gameOver = true;
+  }
+}
 
 // INIT
 startTurn();
