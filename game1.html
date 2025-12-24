@@ -21,14 +21,17 @@
     <button data-dir="right">➡</button>
   </div>
 </div>
-<p id="result"></p>
-<div id="challengeZone"></div>
-<div id="difficultyZone"></div>
+<div id="challengeZone" class="panel"></div>
+<div id="difficultyZone" class="panel"></div>
 
-<div id="solutionZone" style="margin-top:10px; font-style:italic;">
-<input id="answerInput" placeholder="Ta réponse..." />
-<button id="answerBtn">Valider</button>
+<!-- Zone de réponse -->
+<div id="answerZone" class="panel">
+  <input id="answerInput" placeholder="Ta réponse..." />
+  <button id="answerBtn">Valider</button>
 </div>
+
+<!-- Zone de solution (affichée après validation) -->
+<div id="solutionZone" class="panel" style="margin-top:10px; font-style:italic;"></div>
 
 <!-- Bouton fin de tour -->
 <button id="endTurnBtn">Fin de tour</button>
