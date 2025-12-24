@@ -247,6 +247,13 @@ function startTurn() {
   initialActions = clamp(getRandomActions());
   actionsRemaining = initialActions;
   difficultyLevel = Math.floor(Math.random() * 3) + 1;
+  window.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#controls button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      movePlayer(btn.dataset.dir);
+    });
+  });
+});
   renderPlayers();
   startChallenge();
 }
@@ -258,20 +265,37 @@ document.getElementById("endTurnBtn").addEventListener("click", () => {
 
 // MOVE
 document.addEventListener("keydown", e => {
-  if (actionsRemaining <= 0) return;
-  const p = players[currentPlayerIndex];
-  const moves = {
-    ArrowUp: [0, -1],
-    ArrowDown: [0, 1],
-    ArrowLeft: [-1, 0],
-    ArrowRight: [1, 0]
+  const keyMap = {
+    ArrowUp: "up",
+    ArrowDown: "down",
+    ArrowLeft: "left",
+    ArrowRight: "right"
   };
-  if (!moves[e.key]) return;
-  p.position.x += moves[e.key][0];
-  p.position.y += moves[e.key][1];
+
+  if (!keyMap[e.key]) return;
+  movePlayer(keyMap[e.key]);
+});
+
+function movePlayer(direction) {
+  if (actionsRemaining <= 0) return;
+
+  const p = players[currentPlayerIndex];
+
+  const moves = {
+    up: [0, -1],
+    down: [0, 1],
+    left: [-1, 0],
+    right: [1, 0]
+  };
+
+  if (!moves[direction]) return;
+
+  p.position.x += moves[direction][0];
+  p.position.y += moves[direction][1];
+
   actionsRemaining--;
   renderPlayers();
-});
+}
 
 // INIT
 startTurn();
