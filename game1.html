@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grille D&D Etape 1 : Plaine</title>
+  <title>Grille D&D Etape 1 : Le village</title>
   <link rel="stylesheet" href="game1_styles.css">
 </head>
 <body>
+  <h1 class="title">Etape 1 : Le village</h1>
   <!-- Grille -->
   <div id="grid" class="grid"></div>
 
@@ -23,16 +24,18 @@
 <p id="result"></p>
 <div id="challengeZone"></div>
 <div id="difficultyZone"></div>
+
+<div id="solutionZone" style="margin-top:10px; font-style:italic;">
 <input id="answerInput" placeholder="Ta réponse..." />
 <button id="answerBtn">Valider</button>
-<div id="solutionZone" style="margin-top:10px; font-style:italic;"></div>
+</div>
 
 <!-- Bouton fin de tour -->
 <button id="endTurnBtn">Fin de tour</button>
 
 <!--Liste des pseudos actifs-->
 <div id="playerRowZone" class="player-box">
-  <h2>Voici la liste des pseudos :</h2>
+  <h2>Liste des joueurs dans la partie :</h2>
   <div id="playerRow"></div>
 </div>
 
@@ -40,4 +43,3 @@
   <script src="game1_script.js"></script>
 </body>
 </html>
-
