@@ -53,6 +53,16 @@ body {
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
 
+.controls {
+  margin-top: 15px;
+  text-align: center;
+}
+.controls button {
+  font-size: 24px;
+  margin: 5px;
+  padding: 10px 15px;
+}
+
 /* Résultat */
 #result {
   text-align: center;
@@ -147,3 +157,4 @@ button:hover {
   text-align: center;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 }
+
