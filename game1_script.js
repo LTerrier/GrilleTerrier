@@ -285,31 +285,41 @@ function movePlayer(direction) {
 
   if (!moves[direction]) return;
 
-  let newX = p.position.x + moves[direction][0];
-  let newY = p.position.y + moves[direction][1];
+  const dx = moves[direction][0];
+  const dy = moves[direction][1];
 
-  // Vérifier si la case existe
-  const tileExists = playableTiles.some(t => t.x === newX && t.y === newY);
-  if (!tileExists) return;
+  let newX = p.position.x + dx;
+  let newY = p.position.y + dy;
 
-  // Appliquer le mouvement
+  // 1. Vérifier si la case visée existe
+  const targetTile = playableTiles.find(t => t.x === newX && t.y === newY);
+  if (!targetTile) {
+    return; // mouvement impossible ⇒ on ne bouge pas
+  }
+
+  // 2. Appliquer le mouvement
   p.position.x = newX;
   p.position.y = newY;
 
-  // === DESCENTE AUTOMATIQUE ===
-  // Vérifier si c'est la dernière case de la ligne
-  const isLastTileOfRow = !playableTiles.some(
-    t => t.y === p.position.y && t.x === p.position.x + 1
-  );
+  // 3. Vérifier si on est sur la dernière case de cette ligne
+  const rowTiles = playableTiles.filter(t => t.y === p.position.y);
+  const maxX = Math.max(...rowTiles.map(t => t.x));
+
+  const isLastTileOfRow = p.position.x === maxX;
 
   if (isLastTileOfRow) {
-    // Vérifier s'il existe une case juste en dessous
-    const belowTile = playableTiles.find(
-      t => t.x === p.position.x && t.y === p.position.y + 1
-    );
+    // 4. Chercher la ligne du dessous
+    const nextRowY = p.position.y + 1;
+    const nextRowTiles = playableTiles.filter(t => t.y === nextRowY);
 
-    if (belowTile) {
-      p.position.y += 1; // descente automatique
+    if (nextRowTiles.length > 0) {
+      // On place le joueur sur la première case de la ligne suivante
+      const firstTileNextRow = nextRowTiles.reduce((min, t) =>
+        t.x < min.x ? t : min
+      , nextRowTiles[0]);
+
+      p.position.x = firstTileNextRow.x;
+      p.position.y = nextRowY;
     }
   }
 
@@ -325,7 +335,3 @@ document.querySelectorAll("#controls button").forEach(btn => {
 
 // INIT
 startTurn();
-
-
-
-
